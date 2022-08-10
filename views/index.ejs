@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="css/style.css" />
+		<title>Money Calculator App</title>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="form">
+				<input type="text" name="expense-name" id="expense-name" placeholder="Enter A New Action" />
+				<input
+					type="text"
+					name="expense-location"
+					id="expense-location"
+					placeholder="Enter Action Location"
+				/>
+				<input
+					type="text"
+					name="expense-amount"
+					id="expense-amount"
+					placeholder="Enter Action Amount"
+				/>
+				<input type="date" name="expense-date" id="expense-date" />
+				<input type="submit" value="OUT-" name="expense-out" id="expense-out" />
+				<input type="submit" value="IN+" name="expense-in" id="expense-in" />
+			</div>
+			<table class="actions">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Location</th>
+						<th>Amount</th>
+						<th>Date</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+				<tfoot>
+					<tr>
+						<td class="total">Total:</td>
+						<td class="total-amount" colspan="3"></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+		<script src="js/main.js"></script>
+	</body>
+</html>

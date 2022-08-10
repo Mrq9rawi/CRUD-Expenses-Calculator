@@ -1,0 +1,32 @@
+GET http://localhost:3000/expenses
+
+
+###
+
+POST http://localhost:3000/expenses
+Content-Type: application/json
+
+{
+	"name": "salary",
+	"location": "longos",
+	"amount": "600",
+	"date": "2022-08-12",
+	"type": "in"
+}
+
+###
+
+DELETE http://localhost:3000/expenses/62f34fa82e5a5a5c1dfcdb74
+
+###
+
+PATCH  http://localhost:3000/expenses/62f3513cd14594e4d59ff6ed
+Content-Type: application/json
+
+{
+	"name": "hi",
+	"location": "best buy",
+	"amount": "1000",
+	"date": "2022-08-10",
+	"type": "out"
+}

@@ -1,0 +1,80 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	color: #023047;
+}
+
+body {
+	background-color: #fdf0d5;
+}
+
+.container {
+	padding-top: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 30px;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	padding: 20px;
+	background-color: #669bbc;
+	border-radius: 15px;
+}
+
+input {
+	padding: 10px 20px;
+	border: none;
+	outline: none;
+	border-radius: 15px;
+}
+
+input[type="text"] {
+	width: 300px;
+}
+
+input[type="submit"] {
+	background-color: #2d6a4f;
+	color: white;
+	cursor: pointer;
+}
+
+input[name="expense-out"] {
+	background-color: #780000;
+}
+
+.actions {
+	background-color: #003049;
+	padding: 20px;
+	border-collapse: collapse;
+}
+
+th,
+td {
+	border: 1px solid;
+	color: white;
+	text-align: center;
+	padding: 7px;
+}
+
+th {
+	width: 200px;
+	background-color: #669bbc;
+}
+
+.in {
+	background-color: #2d6a4f;
+}
+
+.out {
+	background-color: #780000;
+}
+
+.total,
+.total-amount {
+	background-color: #669bbc;
+}	
