@@ -16,7 +16,7 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/expenses/62f34fa82e5a5a5c1dfcdb74
+DELETE http://localhost:3000/expenses/62f3590c23c686c6ac8ae307
 
 ###
 
