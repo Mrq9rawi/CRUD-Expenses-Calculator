@@ -19,7 +19,6 @@ function getData() {
 		return res.json();
 	}).then((json) => {
 		eArray = json;
-		console.log(eArray);
 		eDocumentWriteIn(eArray);
 	});
 }
@@ -34,21 +33,11 @@ window.onload = () => {
 	eName.focus();
 };
 
-eIn.addEventListener("click", () => {
-	let actionType = "in";
-	// validate data
-	if (eName.value.trim() !== "" && eLocation.value.trim() !== "" && eAmount.value.trim() !== "" && eDate.value.trim() !== "" && !isNaN(eAmount.value)) {
-		// add data to an array
-		addEToDb(eName.value, eLocation.value, eAmount.value, eDate.value, actionType);
-		// clear inputs
-		clearInputs();
-		// focus on Expense Name
-		eName.focus();
-	}
-});
+eIn.addEventListener("click", createNewExpense);
+eOut.addEventListener("click", createNewExpense);
 
-eOut.addEventListener("click", () => {
-	let actionType = "out";
+function createNewExpense() {
+	let actionType = this.getAttribute('data-type');
 	// validate data
 	if (eName.value.trim() !== "" && eLocation.value.trim() !== "" && eAmount.value.trim() !== "" && eDate.value.trim() !== "" && !isNaN(eAmount.value)) {
 		// add data to an array
@@ -58,7 +47,8 @@ eOut.addEventListener("click", () => {
 		// focus on Expense Name
 		eName.focus();
 	}
-});
+}
+
 
 function clearInputs() {
 	eName.value = "";
@@ -68,7 +58,18 @@ function clearInputs() {
 }
 
 function addEToDb(eN, eL, eA, eD, eT) {
-	// create expense object
+	// add expense to the db
+	fetch('/expenses', {
+		method: 'post',
+		body: JSON.stringify(createExpenseObject(eN, eL, eA, eD, eT)),
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	});
+	getData();
+}
+
+function createExpenseObject(eN, eL, eA, eD, eT) {
 	const expense = {
 		name: eN,
 		location: eL,
@@ -76,15 +77,7 @@ function addEToDb(eN, eL, eA, eD, eT) {
 		date: eD,
 		type: eT
 	};
-	// add expense to the db
-	fetch('/expenses', {
-		method: 'post',
-		body: JSON.stringify(expense),
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	});
-	getData();
+	return expense;
 }
 
 function eDocumentWriteIn(eArray) {
@@ -95,10 +88,21 @@ function eDocumentWriteIn(eArray) {
 	eArray.forEach((e) => {
 		// create table data
 		let eTr = document.createElement("tr");
+		eTr.setAttribute("id", e._id);
 		let eNTd = document.createElement("td");
 		let eLTd = document.createElement("td");
 		let eATd = document.createElement("td");
 		let eDTd = document.createElement("td");
+		let eActionsTd = document.createElement("td");
+		eActionsTd.classList.add("actions");
+		let updateButton = document.createElement('button');
+		updateButton.classList.add("update");
+		updateButton.textContent = "Update";
+		updateButton.addEventListener("click", initUpdate);
+		let deleteButton = document.createElement('button');
+		deleteButton.classList.add("delete");
+		deleteButton.textContent = "Delete";
+		deleteButton.addEventListener("click", deleteExpense);
 		// get eTotal
 		actionsTableBody.prepend(eTr);
 		eTr.append(eNTd);
@@ -118,12 +122,71 @@ function eDocumentWriteIn(eArray) {
 		} else {
 			eATd.className = "in";
 		}
-		totalAmount.textContent = +totalAmount.textContent + +eAmount;
-		// calculate total
 		eTr.append(eDTd);
 		eDTd.textContent = e.ActionDate;
+		eTr.append(eActionsTd);
+		eActionsTd.append(updateButton);
+		eActionsTd.append(deleteButton);
+		// calculate total
+		totalAmount.textContent = +totalAmount.textContent + +eAmount;
 	});
 	// add $ to total
 	totalAmount.textContent += "$";
+}
 
+function initUpdate() {
+	eName.value = this.parentElement.parentElement.children[0].textContent;
+	eLocation.value = this.parentElement.parentElement.children[1].textContent;
+	eAmount.value = Math.abs(parseInt(this.parentElement.parentElement.children[2].textContent));
+	eDate.value = this.parentElement.parentElement.children[3].textContent;
+
+	eOut.removeEventListener("click", createNewExpense);
+	eIn.removeEventListener("click", createNewExpense);
+
+	eOut.addEventListener("click", updateExpense);
+	eOut.setAttribute("data-id", this.parentElement.parentElement.id);
+	eIn.addEventListener("click", updateExpense);
+	eIn.setAttribute("data-id", this.parentElement.parentElement.id);
+}
+
+function updateExpense(evt) {
+	let actionType = evt.currentTarget.getAttribute('data-type');
+	let expenseId = evt.currentTarget.getAttribute('data-id');
+	eIn.setAttribute("data-id", "");
+	eOut.setAttribute("data-id", "");
+
+	// validate data
+	if (eName.value.trim() !== "" && eLocation.value.trim() !== "" && eAmount.value.trim() !== "" && eDate.value.trim() !== "" && !isNaN(eAmount.value)) {
+		// add data to an array
+		updateEFromDb(eName.value, eLocation.value, eAmount.value, eDate.value, actionType, expenseId);
+		// clear inputs
+		clearInputs();
+		// focus on Expense Name
+		eName.focus();
+	}
+}
+
+function updateEFromDb(eN, eL, eA, eD, eT, eId) {
+	fetch(`/expenses/${eId}`, {
+		method: 'PATCH',
+		body: JSON.stringify(createExpenseObject(eN, eL, eA, eD, eT)),
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	}).then(() => {
+		eOut.addEventListener("click", createNewExpense);
+		eIn.addEventListener("click", createNewExpense);
+
+		eOut.removeEventListener("click", updateExpense);
+		eIn.removeEventListener("click", updateExpense);
+		getData();
+	});
+}
+
+function deleteExpense() {
+	fetch(`/expenses/${this.parentElement.parentElement.id}`, {
+		method: "delete"
+	}).then(() => {
+		getData();
+	});
 }

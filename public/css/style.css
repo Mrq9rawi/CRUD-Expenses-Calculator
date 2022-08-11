@@ -77,4 +77,25 @@ th {
 .total,
 .total-amount {
 	background-color: #669bbc;
-}	
+}
+
+td.actions {
+	display: flex;
+	gap: 5px;
+}
+td.actions button {
+	padding: 10px 20px;
+	border-radius: 10px;
+	border: none;
+	cursor: pointer;
+}
+
+td.actions .update {
+	background-color: #ffbe0b;
+	color: white;
+}
+
+td.actions .delete {
+	background-color: #780000;
+	color: white;
+}

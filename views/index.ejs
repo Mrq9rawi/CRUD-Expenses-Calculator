@@ -24,8 +24,8 @@
 					placeholder="Enter Action Amount"
 				/>
 				<input type="date" name="expense-date" id="expense-date" />
-				<input type="submit" value="OUT-" name="expense-out" id="expense-out" />
-				<input type="submit" value="IN+" name="expense-in" id="expense-in" />
+				<input type="submit" value="OUT-" data-type="out" name="expense-out" id="expense-out" />
+				<input type="submit" value="IN+" data-type="in" name="expense-in" id="expense-in" />
 			</div>
 			<table class="actions">
 				<thead>
@@ -34,13 +34,14 @@
 						<th>Location</th>
 						<th>Amount</th>
 						<th>Date</th>
+						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody></tbody>
 				<tfoot>
 					<tr>
 						<td class="total">Total:</td>
-						<td class="total-amount" colspan="3"></td>
+						<td class="total-amount" colspan="4"></td>
 					</tr>
 				</tfoot>
 			</table>

@@ -16,17 +16,17 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/expenses/62f3590c23c686c6ac8ae307
+DELETE http://localhost:3000/expenses/62f41e63e77d4c2d51033390
 
 ###
 
-PATCH  http://localhost:3000/expenses/62f3513cd14594e4d59ff6ed
+PATCH  http://localhost:3000/expenses/62f4202668c30d05cd681d43
 Content-Type: application/json
 
 {
 	"name": "hi",
 	"location": "best buy",
 	"amount": "1000",
-	"date": "2022-08-10",
+	"date": "08/10/2022",
 	"type": "out"
 }
